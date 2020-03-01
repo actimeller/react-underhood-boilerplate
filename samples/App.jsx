@@ -1,5 +1,11 @@
 import OwnReact from "../src";
 
-const App = <h1 prop1="prop1 value" prop2="prop2 value">Hello, World! <br/> sksk</h1>;
+const alphabet = ["a", "b", "c"];
+
+const List = children => <ul>{children}</ul>;
+
+// const App = <h1>Hello, World! <br/> Минимальная рабочая реализация Virtual DOM</h1>;
+const App = <ul>{[1, 2, 3, 4, 5].map(el => el)}</ul>;
+// const App = <List><ListItem/></List>;
 
 export default App;
