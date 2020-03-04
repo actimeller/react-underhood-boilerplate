@@ -3,8 +3,14 @@ import OwnReact from "../src";
 const alphabet = ["a", "b", "c"];
 
 const List = children => <ul>{children}</ul>;
+const ListItem = children => <li>{children}</li>;
 
-const App = <ul>{alphabet.map(el => <li>{el}</li>)}</ul>;
-// const App = <List>234</List>;
+const App = (
+  <List>
+    {alphabet.map(el => (
+      <ListItem>{el}</ListItem>
+    ))}
+  </List>
+);
 
 export default App;

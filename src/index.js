@@ -9,27 +9,20 @@ class OwnReact {
     };
   }
 
-  static render1(element, parentDom) {
-    const isTextElement = typeof element === "string";
-    const { type, props } = element;
-
-    const dom = isTextElement
-      ? document.createTextNode(element)
-      : document.createElement(type);
-    if (!isTextElement) {
-      const childElements = props.children || [];
-      childElements.forEach(childElement => this.render(childElement, dom));
-    } else {
-      this.createElement("TEXT_ELEMENT", {
-        nodeValue: element
-      });
-    }
-    parentDom.appendChild(dom);
-  }
-
   static render(element, parentDom) {
     const { type, props } = element;
-    if (type) {
+    if (typeof element === "string") {
+      const textElement = this.createElement("TEXT_ELEMENT", {
+        nodeValue: element
+      });
+      this.render(textElement, parentDom);
+    } else if (element instanceof Array) {
+      element.map(item => this.render(item, parentDom));
+    } else if (type instanceof Function) {
+      this.render(type(props.children), parentDom);
+    } else if (type instanceof Object) {
+      this.render(type, parentDom);
+    } else {
       const isTextElement = type === "TEXT_ELEMENT";
       const dom = isTextElement
         ? document.createTextNode(props.nodeValue)
@@ -37,13 +30,6 @@ class OwnReact {
       const childElements = props.children || [];
       childElements.forEach(childElement => this.render(childElement, dom));
       parentDom.appendChild(dom);
-    } else if (Array.isArray(element)) {
-      element.map(item => this.render(item, parentDom));
-    } else {
-      const textElement = this.createElement("TEXT_ELEMENT", {
-        nodeValue: element
-      });
-      this.render(textElement, parentDom);
     }
   }
 }
