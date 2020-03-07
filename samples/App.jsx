@@ -5,14 +5,7 @@ const alphabet = ["a", "b"];
 const List = children => <ul>{children}</ul>;
 const ListItem = children => <li>{children}</li>;
 
-// const App = (
-//   <List>
-//     {alphabet.map(el => (
-//       <ListItem>{el}</ListItem>
-//     ))}
-//   </List>
-// );
-
+// Рендер обычного дерева
 const App = (
   <ul>
     <li>a</li>
@@ -20,22 +13,34 @@ const App = (
   </ul>
 );
 
-const App1 = (
-  <div><ul>
-    asdf
-     {alphabet.map(el => <li>{el}</li>)}
-  </ul></div>
+// Рендер массива
+const App2 = (
+  <ul>
+    {alphabet.map(el => (
+      <li>{el}</li>
+    ))}
+  </ul>
 );
 
-//samples/index.js
+// Рендер функциональных компонентов
+const App3 = (
+  <List>
+    {alphabet.map(el => (
+      <List>{el}</List>
+    ))}
+  </List>
+);
+
+// samples/index.js
 const root = document.getElementById("root");
 function tick() {
-  OwnReact.render(App, root);
+  OwnReact.render(App2, root);
 }
-// tick();
-// setInterval(tick, 1000);
+tick();
+setInterval(tick, 5000);
 // eslint-disable-next-line react/no-deprecated
-OwnReact.render(App, root);
-OwnReact.render(App1, root);
+// OwnReact.render(App, root);
+OwnReact.render(App2, root);
+// OwnReact.render(App3, root);
 
 export default App;

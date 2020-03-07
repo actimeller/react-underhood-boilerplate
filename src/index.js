@@ -27,24 +27,22 @@ class OwnReact {
       parentDom.appendChild(newInstance.dom);
       return newInstance;
     }
-    else if (instance.element.type === element.type) {
+    if (instance.element.type === element.type) {
       // Обновляем инстанс
       // updateDomProperties(instance.dom, instance.element.props, element.props);
       instance.childInstances = this.reconcileChildren(instance, element);
       instance.element = element;
       return instance;
     }
-    else {
-      // Заменяем инстанс
-      const newInstance = this.instantiate(element);
-      parentDom.replaceChild(newInstance.dom, instance.dom);
-      return newInstance;
-    }
+    // Заменяем инстанс
+    const newInstance = this.instantiate(element);
+    parentDom.replaceChild(newInstance.dom, instance.dom);
+    return newInstance;
   }
 
   static reconcileChildren(instance, element) {
-    const dom = instance.dom;
-    const childInstances = instance.childInstances;
+    const { dom } = instance;
+    const { childInstances } = instance;
     const nextChildElements = element.props.children || [];
     const newChildInstances = [];
     const count = Math.max(childInstances.length, nextChildElements.length);
@@ -58,41 +56,41 @@ class OwnReact {
   }
 
   static instantiate(element) {
-
     const { type, props } = element;
     if (typeof element === "string") {
       const textElement = this.createElement("TEXT_ELEMENT", {
         nodeValue: element
       });
       return this.instantiate(textElement);
-    } else if (element instanceof Array) {
-       return element.map(item => this.instantiate(item));
-    } else if (type instanceof Function) {
-      this.instantiate(type(props.children));
-    } else if (type instanceof Object) {
-      this.instantiate(type);
-    } else {
-      const isTextElement = type === "TEXT_ELEMENT";
-      const dom = isTextElement
-        ? document.createTextNode(props.nodeValue)
-        : document.createElement(type);
-      const childElements = props.children || [];
-      const childInstances = childElements.map(child => this.instantiate(child));
-      const childDoms = childInstances.reduce((doms, childInstance) => {
-        if (childInstance instanceof Array) {
-          childInstance.map(instance => doms.push(instance.dom));
-        } else {
-          doms.push(childInstance.dom);
-        }
-        return doms
-      }, []);
-      console.info(childDoms);
-      childDoms.forEach(childDom => {
-        return dom.appendChild(childDom)
-      });
-      const instance = { dom, element, childInstances };
-      return instance;
     }
+    if (element instanceof Array) {
+      return element.map(item => this.instantiate(item));
+    }
+    if (type instanceof Function) {
+      return this.instantiate(type(props.children));
+    }
+    if (type instanceof Object) {
+      return this.instantiate(type);
+    }
+    const isTextElement = type === "TEXT_ELEMENT";
+    const dom = isTextElement
+      ? document.createTextNode(props.nodeValue)
+      : document.createElement(type);
+    const childElements = props.children || [];
+    const childInstances = childElements.reduce((instances, child) => {
+      if (child instanceof Array) {
+        this.instantiate(child).map(element => instances.push(element));
+      } else {
+        instances.push(this.instantiate(child));
+      }
+      return instances;
+    }, []);
+    const childDoms = childInstances.map(childInstance => childInstance.dom);
+    childDoms.forEach(childDom => {
+      return dom.appendChild(childDom);
+    });
+    const instance = { dom, element, childInstances };
+    return instance;
   }
 }
 
