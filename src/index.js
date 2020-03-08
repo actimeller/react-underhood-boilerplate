@@ -1,16 +1,26 @@
+import createTextElement from "./createTextElement";
+
 class OwnReact {
   constructor() {
     this.rootInstance = null;
   }
 
   static createElement(type, props, ...children) {
-    return {
+    let element = {
       type,
       props: {
         ...props,
-        children: [...children]
+        children: children.flatMap(child =>
+          typeof child === "string" ? createTextElement(child) : child
+        )
       }
     };
+
+    if (type instanceof Function) {
+      element = type(element.props);
+    }
+
+    return element;
   }
 
   static render(element, container) {
@@ -57,32 +67,17 @@ class OwnReact {
 
   static instantiate(element) {
     const { type, props } = element;
-    if (typeof element === "string") {
-      const textElement = this.createElement("TEXT_ELEMENT", {
-        nodeValue: element
-      });
-      return this.instantiate(textElement);
-    }
-    if (element instanceof Array) {
-      return element.map(item => this.instantiate(item));
-    }
-    if (type instanceof Function) {
-      return this.instantiate(type(props.children));
-    }
-    if (type instanceof Object) {
-      return this.instantiate(type);
-    }
     const isTextElement = type === "TEXT_ELEMENT";
     const dom = isTextElement
       ? document.createTextNode(props.nodeValue)
       : document.createElement(type);
-    const childElements = props.children || [];
+    const childElements = props.children;
     const childInstances = childElements.reduce((instances, child) => {
-      if (child instanceof Array) {
-        this.instantiate(child).map(element => instances.push(element));
-      } else {
-        instances.push(this.instantiate(child));
-      }
+      // if (child instanceof Array) {
+      //   this.instantiate(child).map(element => instances.push(element));
+      // } else {
+      instances.push(this.instantiate(child));
+      // }
       return instances;
     }, []);
     const childDoms = childInstances.map(childInstance => childInstance.dom);

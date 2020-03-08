@@ -2,8 +2,8 @@ import OwnReact from "../src";
 
 const alphabet = ["a", "b"];
 
-const List = children => <ul>{children}</ul>;
-const ListItem = children => <li>{children}</li>;
+const List = ({ children }) => <ul>{children}</ul>;
+const ListItem = ({ children }) => <li>{children}</li>;
 
 // Рендер обычного дерева
 const App = (
@@ -26,7 +26,7 @@ const App2 = (
 const App3 = (
   <List>
     {alphabet.map(el => (
-      <List>{el}</List>
+      <ListItem>{el}</ListItem>
     ))}
   </List>
 );
@@ -36,11 +36,11 @@ const root = document.getElementById("root");
 function tick() {
   OwnReact.render(App2, root);
 }
-tick();
-setInterval(tick, 5000);
+// tick();
+// setInterval(tick, 5000);
 // eslint-disable-next-line react/no-deprecated
 // OwnReact.render(App, root);
-OwnReact.render(App2, root);
-// OwnReact.render(App3, root);
+// OwnReact.render(App2, root);
+OwnReact.render(App3, root);
 
 export default App;
