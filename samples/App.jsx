@@ -1,6 +1,13 @@
 import OwnReact from "../src";
 
-const alphabet = ["a", "b"];
+function createAlphabet() {
+  const alphabetArray = [];
+  for (let i = 1040; i <= 1071; i += 1) {
+    alphabetArray.push(String.fromCharCode(i));
+  }
+  return alphabetArray;
+}
+const alphabet = createAlphabet();
 
 const List = ({ children }) => <ul>{children}</ul>;
 const ListItem = ({ children }) => <li>{children}</li>;
@@ -34,10 +41,10 @@ const App3 = (
 // samples/index.js
 const root = document.getElementById("root");
 function tick() {
-  OwnReact.render(App2, root);
+  OwnReact.render(App3, root);
 }
-// tick();
-// setInterval(tick, 5000);
+tick();
+// setInterval(tick, 2000);
 // eslint-disable-next-line react/no-deprecated
 // OwnReact.render(App, root);
 // OwnReact.render(App2, root);

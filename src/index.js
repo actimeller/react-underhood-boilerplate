@@ -39,7 +39,11 @@ class OwnReact {
     }
     if (instance.element.type === element.type) {
       // Обновляем инстанс
-      // updateDomProperties(instance.dom, instance.element.props, element.props);
+      this.updateDomProperties(
+        instance.dom,
+        instance.element.props,
+        element.props
+      );
       instance.childInstances = this.reconcileChildren(instance, element);
       instance.element = element;
       return instance;
@@ -48,6 +52,37 @@ class OwnReact {
     const newInstance = this.instantiate(element);
     parentDom.replaceChild(newInstance.dom, instance.dom);
     return newInstance;
+  }
+
+  static updateDomProperties(dom, prevProps, nextProps) {
+    const isEvent = name => name.startsWith("on");
+    const isAttribute = name => !isEvent(name) && name !== "children";
+    // Удаляем прослушку событий
+    Object.keys(prevProps)
+      .filter(isEvent)
+      .forEach(name => {
+        const eventType = name.toLowerCase().substring(2);
+        dom.removeEventListener(eventType, prevProps[name]);
+      });
+    // Удаляем пропсы
+    Object.keys(prevProps)
+      .filter(isAttribute)
+      .forEach(name => {
+        dom[name] = null;
+      });
+    // Задаём пропсы
+    Object.keys(nextProps)
+      .filter(isAttribute)
+      .forEach(name => {
+        dom[name] = nextProps[name];
+      });
+    // Добавляем прослушку событий
+    Object.keys(nextProps)
+      .filter(isEvent)
+      .forEach(name => {
+        const eventType = name.toLowerCase().substring(2);
+        dom.addEventListener(eventType, nextProps[name]);
+      });
   }
 
   static reconcileChildren(instance, element) {
@@ -72,14 +107,7 @@ class OwnReact {
       ? document.createTextNode(props.nodeValue)
       : document.createElement(type);
     const childElements = props.children;
-    const childInstances = childElements.reduce((instances, child) => {
-      // if (child instanceof Array) {
-      //   this.instantiate(child).map(element => instances.push(element));
-      // } else {
-      instances.push(this.instantiate(child));
-      // }
-      return instances;
-    }, []);
+    const childInstances = childElements.map(child => this.instantiate(child));
     const childDoms = childInstances.map(childInstance => childInstance.dom);
     childDoms.forEach(childDom => {
       return dom.appendChild(childDom);
