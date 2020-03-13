@@ -16,7 +16,8 @@
   "license": "ISC",
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint -- --fix"
+      "pre-commit": "npm run lint -- --fix",
+      "pre-push": "npm run test"
     }
   },
   "devDependencies": {

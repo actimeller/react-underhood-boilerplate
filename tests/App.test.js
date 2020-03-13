@@ -1,5 +1,42 @@
 import App from "../samples/App";
 
 test("jsx works", () => {
-  expect(App).toEqual(["h1", { prop1: "prop value" }, "Hello, World!"]);
+  expect(new App()).toEqual({
+    state: {
+      alphabet: [
+        "А",
+        "Б",
+        "В",
+        "Г",
+        "Д",
+        "Е",
+        "Ж",
+        "З",
+        "И",
+        "Й",
+        "К",
+        "Л",
+        "М",
+        "Н",
+        "О",
+        "П",
+        "Р",
+        "С",
+        "Т",
+        "У",
+        "Ф",
+        "Х",
+        "Ц",
+        "Ч",
+        "Ш",
+        "Щ",
+        "Ъ",
+        "Ы",
+        "Ь",
+        "Э",
+        "Ю",
+        "Я"
+      ]
+    }
+  });
 });
