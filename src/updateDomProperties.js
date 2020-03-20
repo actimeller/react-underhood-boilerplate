@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
+const isEvent = name => name.startsWith("on");
+const isAttribute = name => !isEvent(name) && name !== "children";
+
 const updateDomProperties = (dom, prevProps, nextProps) => {
-  const isEvent = name => name.startsWith("on");
-  const isAttribute = name => !isEvent(name) && name !== "children";
   // Удаляем прослушку событий
   Object.keys(prevProps)
     .filter(isEvent)

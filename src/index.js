@@ -1,11 +1,8 @@
 import createTextElement from "./createTextElement";
-// import updateInstance from "./updateInstance";
 import reconcile from "./reconcile";
 
 class OwnReact {
-  constructor(props) {
-    this.props = props;
-    this.state = this.state || {};
+  constructor() {
     this.rootInstance = null;
   }
 

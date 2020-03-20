@@ -1,9 +1,9 @@
 import OwnReact from "../src";
 import randomInteger from "../utils/randomInteger";
 import randomReplaceArray from "../utils/randomReplaceArray";
-import createAlphabet from "../utils/createAlphabet";
 import Component from "../src/Component";
 
+const russianString = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
 const List = ({ children }) => <ul>{children}</ul>;
 const ListItem = ({ children }) => <li>{children}</li>;
 
@@ -11,7 +11,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      alphabet: createAlphabet()
+      alphabet: russianString.split("")
     };
   }
 
