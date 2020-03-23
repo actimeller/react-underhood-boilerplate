@@ -1,4 +1,5 @@
 import App from "../samples/App";
+import sortAlphabetByString from "../utils/sortAlphabetByString";
 
 test("jsx works", () => {
   expect(new App()).toEqual({
@@ -36,7 +37,18 @@ test("jsx works", () => {
         "э",
         "ю",
         "я"
-      ]
+      ],
+      inputValue: ""
     }
   });
+});
+
+test("sortAlphabetByString works", () => {
+  expect(sortAlphabetByString(["а", "б", "в", "г", "д"], "гба")).toEqual([
+    "г",
+    "б",
+    "в",
+    "а",
+    "д"
+  ]);
 });
