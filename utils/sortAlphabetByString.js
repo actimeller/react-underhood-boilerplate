@@ -1,16 +1,14 @@
 const sortAlphabetByString = (alphabet, string) => {
-  const arrayFromString = string.split("");
+  const arrayFromString = string
+    .split("")
+    .filter(symbol => alphabet.indexOf(symbol) >= 0);
   const includesIndexArray = arrayFromString
     .map(symbol => alphabet.indexOf(symbol))
     .sort();
-
-  const newAlphabet = alphabet;
+  const newAlphabet = [...alphabet];
   arrayFromString.forEach((symbol, index) => {
-    if (newAlphabet.indexOf(symbol)) {
-      newAlphabet[includesIndexArray[index]] = symbol;
-    }
+    newAlphabet[includesIndexArray[index]] = symbol;
   });
-  //   console.info(newAlphabet);
   return newAlphabet;
 };
 

@@ -60,7 +60,7 @@ class App extends Component {
           <input
             type="text"
             value={inputValue}
-            onKeyUp={event => {
+            onChange={event => {
               this.handleInputChange(event);
             }}
           />
