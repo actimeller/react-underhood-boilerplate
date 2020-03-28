@@ -16,7 +16,7 @@ class App extends Component {
       inputValue: ""
     };
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSortButton = this.handleSortButton.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleInputChange(event) {
