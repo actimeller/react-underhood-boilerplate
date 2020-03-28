@@ -15,6 +15,8 @@ class App extends Component {
       alphabet: russianString.split(""),
       inputValue: ""
     };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSortButton = this.handleSortButton.bind(this);
   }
 
   handleInputChange(event) {
@@ -60,16 +62,9 @@ class App extends Component {
           <input
             type="text"
             value={inputValue}
-            onChange={event => {
-              this.handleInputChange(event);
-            }}
+            onChange={this.handleInputChange}
           />
-          <button
-            type="button"
-            onClick={() => {
-              this.handleSortButton();
-            }}
-          >
+          <button type="button" onClick={this.handleSortButton}>
             replace by string
           </button>
         </div>
