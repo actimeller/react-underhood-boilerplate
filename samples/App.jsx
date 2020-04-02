@@ -16,7 +16,8 @@ class App extends Component {
       inputValue: ""
     };
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSortButton = this.handleSortButton.bind(this);
+    this.tick = this.tick.bind(this);
   }
 
   handleInputChange(event) {
@@ -50,12 +51,7 @@ class App extends Component {
             <ListItem>{el}</ListItem>
           ))}
         </List>
-        <button
-          type="button"
-          onClick={() => {
-            this.tick();
-          }}
-        >
+        <button type="button" onClick={this.tick}>
           replace array
         </button>
         <div>
