@@ -8,26 +8,39 @@ describe("App", () => {
     constructor(props) {
       super(props);
       this.state = {
-        text: "text"
+        stateText: "text from state"
       };
     }
 
     render() {
-      const { text } = this.state;
-      return <div>{text}</div>;
+      const { stateText } = this.state;
+      const { propsText } = this.props;
+      return (
+        <div>
+          {stateText}
+          {propsText}
+        </div>
+      );
     }
   }
+
   const FunctionalComponent = ({ children }) => <ul>{children}</ul>;
 
-  test("FunctionalComponent renders correctly", () => {
+  test("FunctionalComponent with ClassComponent inside renders correctly", () => {
     expect(
-      <FunctionalComponent>{new ClassComponent()}</FunctionalComponent>
+      <FunctionalComponent>
+        <ClassComponent propsText="text from props" />
+      </FunctionalComponent>
     ).toEqual({
       props: {
         children: [
           {
+            props: {
+              children: [],
+              propsText: "text from props"
+            },
             state: {
-              text: "text"
+              stateText: "text from state"
             }
           }
         ]
@@ -52,19 +65,14 @@ describe("App", () => {
   });
 
   test("Class component renders correctly", () => {
-    expect(new ClassComponent().render()).toEqual({
+    expect(<ClassComponent propsText="text from props" />).toEqual({
       props: {
-        children: [
-          {
-            props: {
-              children: [],
-              nodeValue: "text"
-            },
-            type: "TEXT_ELEMENT"
-          }
-        ]
+        children: [],
+        propsText: "text from props"
       },
-      type: "div"
+      state: {
+        stateText: "text from state"
+      }
     });
   });
 });

@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 import createTextElement from "./createTextElement";
 import reconcile from "./reconcile";
 
@@ -18,7 +19,17 @@ class OwnReact {
     };
 
     if (type instanceof Function) {
-      element = type(element.props);
+      let exception = false;
+      try {
+        // eslint-disable-next-line no-unused-expressions
+        typeof new type();
+      } catch (error) {
+        element = type(element.props);
+        exception = true;
+      }
+      if (!exception) {
+        element = new type(element.props);
+      }
     }
 
     return element;
