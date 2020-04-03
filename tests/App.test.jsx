@@ -39,9 +39,7 @@ describe("App", () => {
               children: [],
               propsText: "text from props"
             },
-            state: {
-              stateText: "text from state"
-            }
+            type: ClassComponent
           }
         ]
       },
@@ -61,18 +59,6 @@ describe("App", () => {
         prop1: "prop value"
       },
       type: "h1"
-    });
-  });
-
-  test("Class component renders correctly", () => {
-    expect(<ClassComponent propsText="text from props" />).toEqual({
-      props: {
-        children: [],
-        propsText: "text from props"
-      },
-      state: {
-        stateText: "text from state"
-      }
     });
   });
 });

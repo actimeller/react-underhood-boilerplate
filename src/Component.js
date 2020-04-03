@@ -12,5 +12,5 @@ class Component {
     updateInstance(this.__internalInstance);
   }
 }
-
+Component.isClass = true;
 export default Component;

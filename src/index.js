@@ -13,23 +13,15 @@ class OwnReact {
       props: {
         ...props,
         children: children.flatMap(child =>
-          typeof child === "string" ? createTextElement(child) : child
+          typeof child === "string" || child == null
+            ? createTextElement(child)
+            : child
         )
       }
     };
 
-    if (type instanceof Function) {
-      let exception = false;
-      try {
-        // eslint-disable-next-line no-unused-expressions
-        typeof new type();
-      } catch (error) {
-        element = type(element.props);
-        exception = true;
-      }
-      if (!exception) {
-        element = new type(element.props);
-      }
+    if (type instanceof Function && !type.isClass) {
+      element = type(element.props);
     }
 
     return element;
@@ -39,6 +31,7 @@ class OwnReact {
     const prevInstance = this.rootInstance;
     const nextInstance = reconcile(container, prevInstance, element);
     this.rootInstance = nextInstance;
+    return nextInstance;
   }
 }
 
