@@ -1,6 +1,7 @@
 import OwnReact from "../src";
 import randomInteger from "../utils/randomInteger";
 import randomReplaceArray from "../utils/randomReplaceArray";
+import sortAlphabetByString from "../utils/sortAlphabetByString";
 import Component from "../src/Component";
 
 const russianString = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
@@ -11,8 +12,25 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      alphabet: russianString.split("")
+      alphabet: russianString.split(""),
+      inputValue: ""
     };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSortButton = this.handleSortButton.bind(this);
+    this.tick = this.tick.bind(this);
+  }
+
+  handleInputChange(event) {
+    this.setState({
+      inputValue: event.target.value
+    });
+  }
+
+  handleSortButton() {
+    const { inputValue, alphabet } = this.state;
+    this.setState({
+      alphabet: sortAlphabetByString(alphabet, inputValue)
+    });
   }
 
   tick() {
@@ -24,17 +42,29 @@ class App extends Component {
   }
 
   render() {
-    const { alphabet } = this.state;
-    setTimeout(() => {
-      this.tick();
-    }, 5000);
+    const { alphabet, inputValue } = this.state;
 
     return (
-      <List>
-        {alphabet.map(el => (
-          <ListItem>{el}</ListItem>
-        ))}
-      </List>
+      <div>
+        <List>
+          {alphabet.map(el => (
+            <ListItem>{el}</ListItem>
+          ))}
+        </List>
+        <button type="button" onClick={this.tick}>
+          replace array
+        </button>
+        <div>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={this.handleInputChange}
+          />
+          <button type="button" onClick={this.handleSortButton}>
+            replace by string
+          </button>
+        </div>
+      </div>
     );
   }
 }

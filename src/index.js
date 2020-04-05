@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 import createTextElement from "./createTextElement";
 import reconcile from "./reconcile";
 
@@ -12,12 +13,14 @@ class OwnReact {
       props: {
         ...props,
         children: children.flatMap(child =>
-          typeof child === "string" ? createTextElement(child) : child
+          typeof child === "string" || child == null
+            ? createTextElement(child)
+            : child
         )
       }
     };
 
-    if (type instanceof Function) {
+    if (type instanceof Function && !type.isClass) {
       element = type(element.props);
     }
 
@@ -28,6 +31,7 @@ class OwnReact {
     const prevInstance = this.rootInstance;
     const nextInstance = reconcile(container, prevInstance, element);
     this.rootInstance = nextInstance;
+    return nextInstance;
   }
 }
 
