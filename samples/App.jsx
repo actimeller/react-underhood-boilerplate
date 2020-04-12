@@ -4,7 +4,7 @@ import randomReplaceArray from "../utils/randomReplaceArray";
 import sortAlphabetByString from "../utils/sortAlphabetByString";
 import Component from "../src/Component";
 
-const russianString = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
+const russianString = "абв";
 const List = ({ children }) => <ul>{children}</ul>;
 const ListItem = ({ children }) => <li>{children}</li>;
 

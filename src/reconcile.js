@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-use-before-define */
+import performanceOwnReact from "../utils/performanceOwnReact";
 import updateDomProperties from "./updateDomProperties";
 import instantiate from "./instantiate";
 
@@ -21,19 +22,27 @@ const reconcile = (parentDom, instance, element) => {
     !element.type.isClass
   ) {
     // Обновляем инстанс
+    performanceOwnReact.start(`Update DOM Element`);
     updateDomProperties(instance.dom, instance.element.props, element.props);
+    performanceOwnReact.end(`Update DOM Element`);
+    performanceOwnReact.measure(`Update DOM Element`);
+
     instance.childInstances = reconcileChildren(instance, element);
     instance.element = element;
     return instance;
   }
   if (typeof element.type === "string") {
     // Обновляем инстанс DOM-элемента
+    performanceOwnReact.start(`Update DOM Element`);
     updateDomProperties(instance.dom, instance.element.props, element.props);
+    performanceOwnReact.end(`Update DOM Element`);
+    performanceOwnReact.measure(`Update DOM Element`);
     instance.childInstances = reconcileChildren(instance, element);
     instance.element = element;
     return instance;
   }
   // Обновляем инстанс компонента
+  performanceOwnReact.start(`Update Component`);
   instance.publicInstance.props = element.props;
   const childElement = instance.publicInstance.render();
   const oldChildInstance = instance.childInstance;
@@ -41,6 +50,9 @@ const reconcile = (parentDom, instance, element) => {
   instance.dom = childInstance.dom;
   instance.childInstance = childInstance;
   instance.element = element;
+  performanceOwnReact.end(`Update Component`);
+  performanceOwnReact.measure(`Update Component`);
+
   return instance;
 };
 
