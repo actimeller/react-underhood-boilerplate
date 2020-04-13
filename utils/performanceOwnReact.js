@@ -30,11 +30,13 @@ const performanceOwnReact = {
 
   print() {
     console.info("summary time: ", this.statistics.summaryTime);
+    console.info("wrong render counter: ", this.statistics.wrongRenderCounter);
   },
 
   clear() {
     this.statistics = {
-      summaryTime: {}
+      summaryTime: {},
+      wrongRenderCounter: 0
     };
   },
 
@@ -47,11 +49,12 @@ const performanceOwnReact = {
   },
 
   statistics: {
-    summaryTime: {}
+    summaryTime: {},
+    wrongRenderCounter: 0
   }
 };
 
 window.performanceOwnReact =
-  process.env.NODE_ENV !== "production" ? {} : performanceOwnReact;
+  process.env.NODE_ENV === "production" ? {} : performanceOwnReact;
 
 export default performanceOwnReact;

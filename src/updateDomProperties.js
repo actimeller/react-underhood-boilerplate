@@ -1,8 +1,13 @@
+import performanceOwnReact from "../utils/performanceOwnReact";
+
 /* eslint-disable no-param-reassign */
 const isEvent = name => name.startsWith("on");
 const isAttribute = name => !isEvent(name) && name !== "children";
 
 const updateDomProperties = (dom, prevProps, nextProps) => {
+  if (JSON.stringify(prevProps) === JSON.stringify(nextProps)) {
+    performanceOwnReact.statistics.wrongRenderCounter += 1;
+  }
   // Удаляем прослушку событий
   Object.keys(prevProps)
     .filter(isEvent)
