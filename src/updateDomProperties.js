@@ -1,11 +1,12 @@
 import performanceOwnReact from "../utils/performanceOwnReact";
+import shallowEqual from "../utils/shallowEqual";
 
 /* eslint-disable no-param-reassign */
 const isEvent = name => name.startsWith("on");
 const isAttribute = name => !isEvent(name) && name !== "children";
 
 const updateDomProperties = (dom, prevProps, nextProps) => {
-  if (JSON.stringify(prevProps) === JSON.stringify(nextProps)) {
+  if (shallowEqual(prevProps, nextProps)) {
     performanceOwnReact.statistics.wrongRenderCounter += 1;
   }
   // Удаляем прослушку событий
