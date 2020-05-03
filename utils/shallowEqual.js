@@ -1,10 +1,27 @@
-const shallowEqual = (obj1, obj2) => {
-  if (obj1 === obj2) return true;
-  if (!obj1 || !obj2) return false;
-  if (Object.keys(obj1).length === Object.keys(obj2).length) {
-    return Object.keys(obj1).every(key => obj1[key] === obj2[key]);
+const shallowEqual = (objA, objB) => {
+  if (objA === objB) {
+    return true;
   }
-  return false;
-};
 
+  if (!objA || !objB) {
+    return false;
+  }
+
+  const aKeys = Object.keys(objA);
+  const bKeys = Object.keys(objB);
+  const len = aKeys.length;
+
+  if (bKeys.length !== len) {
+    return false;
+  }
+
+  for (let i = 0; i < len; i += 1) {
+    const key = aKeys[i];
+    if (objA[key] !== objB[key]) {
+      return false;
+    }
+  }
+
+  return true;
+};
 export default shallowEqual;

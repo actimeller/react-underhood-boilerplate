@@ -17,9 +17,10 @@ const reconcile = (parentDom, instance, element) => {
     return null;
   }
   if (
-    instance.element.type &&
-    instance.element.type === element.type &&
-    !element.type.isClass
+    (instance.element.type &&
+      instance.element.type === element.type &&
+      !element.type.isClass) ||
+    typeof element.type === "string"
   ) {
     // Обновляем инстанс
     performanceOwnReact.start(`Update DOM Element`);
@@ -27,16 +28,6 @@ const reconcile = (parentDom, instance, element) => {
     performanceOwnReact.end(`Update DOM Element`);
     performanceOwnReact.measure(`Update DOM Element`);
 
-    instance.childInstances = reconcileChildren(instance, element);
-    instance.element = element;
-    return instance;
-  }
-  if (typeof element.type === "string") {
-    // Обновляем инстанс DOM-элемента
-    performanceOwnReact.start(`Update DOM Element`);
-    updateDomProperties(instance.dom, instance.element.props, element.props);
-    performanceOwnReact.end(`Update DOM Element`);
-    performanceOwnReact.measure(`Update DOM Element`);
     instance.childInstances = reconcileChildren(instance, element);
     instance.element = element;
     return instance;

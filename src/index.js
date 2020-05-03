@@ -28,19 +28,9 @@ class OwnReact {
   }
 
   static render(element, container) {
-    // window.performance.mark("renderStarts");
     const prevInstance = this.rootInstance;
     const nextInstance = reconcile(container, prevInstance, element);
     this.rootInstance = nextInstance;
-    // window.performance.mark("renderEnds");
-    // console.info(
-    //   window.performance.measure(
-    //     "render duration",
-    //     "renderStarts",
-    //     "renderEnds"
-    //   )
-    // );
-
     return nextInstance;
   }
 }
