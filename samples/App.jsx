@@ -5,6 +5,7 @@ import sortAlphabetByString from "../utils/sortAlphabetByString";
 import Component from "../src/Component";
 
 const russianString = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
+
 const List = ({ children }) => <ul>{children}</ul>;
 const ListItem = ({ children }) => <li>{children}</li>;
 
