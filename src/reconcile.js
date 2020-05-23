@@ -32,18 +32,19 @@ const reconcile = (parentDom, instance, element) => {
     instance.element = element;
     return instance;
   }
-  // Обновляем инстанс компонента
-  performanceOwnReact.start(`Update Component`);
-  instance.publicInstance.props = element.props;
-  const childElement = instance.publicInstance.render();
-  const oldChildInstance = instance.childInstance;
-  const childInstance = reconcile(parentDom, oldChildInstance, childElement);
-  instance.dom = childInstance.dom;
-  instance.childInstance = childInstance;
-  instance.element = element;
-  performanceOwnReact.end(`Update Component`);
-  performanceOwnReact.measure(`Update Component`);
-
+  if (instance.publicInstance.shouldComponentUpdate(element.props)) {
+    // Обновляем инстанс компонента
+    performanceOwnReact.start(`Update Component`);
+    instance.publicInstance.props = element.props;
+    const childElement = instance.publicInstance.render();
+    const oldChildInstance = instance.childInstance;
+    const childInstance = reconcile(parentDom, oldChildInstance, childElement);
+    instance.dom = childInstance.dom;
+    instance.childInstance = childInstance;
+    instance.element = element;
+    performanceOwnReact.end(`Update Component`);
+    performanceOwnReact.measure(`Update Component`);
+  }
   return instance;
 };
 

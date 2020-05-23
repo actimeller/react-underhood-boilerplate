@@ -1,13 +1,29 @@
+/* eslint-disable max-classes-per-file */
 import OwnReact from "../src";
 import randomInteger from "../utils/randomInteger";
 import randomReplaceArray from "../utils/randomReplaceArray";
 import sortAlphabetByString from "../utils/sortAlphabetByString";
 import Component from "../src/Component";
+import PureComponent from "../src/PureComponent";
 
 const russianString = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
 
 const List = ({ children }) => <ul>{children}</ul>;
 const ListItem = ({ children }) => <li>{children}</li>;
+
+class ListComponent extends PureComponent {
+  render() {
+    const { children } = this.props;
+    return <ul>{children}</ul>;
+  }
+}
+
+class ListItemComponent extends PureComponent {
+  render() {
+    const { children } = this.props;
+    return <li>{children}</li>;
+  }
+}
 
 class App extends Component {
   constructor(props) {
@@ -47,11 +63,11 @@ class App extends Component {
 
     return (
       <div>
-        <List>
+        <ListComponent>
           {alphabet.map(el => (
-            <ListItem>{el}</ListItem>
+            <ListItemComponent>{el}</ListItemComponent>
           ))}
-        </List>
+        </ListComponent>
         <button type="button" onClick={this.tick}>
           replace array
         </button>
