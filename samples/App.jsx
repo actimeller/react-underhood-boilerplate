@@ -9,19 +9,11 @@ import PureComponent from "../src/PureComponent";
 const russianString = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
 
 const List = ({ children }) => <ul>{children}</ul>;
-const ListItem = ({ children }) => <li>{children}</li>;
-
-class ListComponent extends PureComponent {
-  render() {
-    const { children } = this.props;
-    return <ul>{children}</ul>;
-  }
-}
 
 class ListItemComponent extends PureComponent {
   render() {
-    const { children } = this.props;
-    return <li>{children}</li>;
+    const { item } = this.props;
+    return <li>{item}</li>;
   }
 }
 
@@ -63,11 +55,11 @@ class App extends Component {
 
     return (
       <div>
-        <ListComponent>
+        <List>
           {alphabet.map(el => (
-            <ListItemComponent>{el}</ListItemComponent>
+            <ListItemComponent item={el} />
           ))}
-        </ListComponent>
+        </List>
         <button type="button" onClick={this.tick}>
           replace array
         </button>

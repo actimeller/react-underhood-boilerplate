@@ -1,15 +1,8 @@
-import performanceOwnReact from "../utils/performanceOwnReact";
-import shallowEqual from "../utils/shallowEqual";
-
 /* eslint-disable no-param-reassign */
 const isEvent = name => name.startsWith("on");
 const isAttribute = name => !isEvent(name) && name !== "children";
 
 const updateDomProperties = (dom, prevProps, nextProps) => {
-  // console.info(prevProps, nextProps, shallowEqual(prevProps, nextProps));
-  // if (shallowEqual(prevProps, nextProps)) {
-  //   performanceOwnReact.statistics.wrongRenderCounter += 1;
-  // } else {
   // Удаляем прослушку событий
   Object.keys(prevProps)
     .filter(isEvent)
@@ -36,6 +29,5 @@ const updateDomProperties = (dom, prevProps, nextProps) => {
       const eventType = name.toLowerCase().substring(2);
       dom.addEventListener(eventType, nextProps[name]);
     });
-  // }
 };
 export default updateDomProperties;

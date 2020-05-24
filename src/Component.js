@@ -13,7 +13,6 @@ class Component {
   }
 
   shouldComponentUpdate() {
-    console.info("this is Component sCU");
     return true;
   }
 }
