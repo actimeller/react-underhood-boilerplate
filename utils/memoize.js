@@ -6,7 +6,6 @@ const memoize = fn => {
   let cacheUsingCounter = 0;
 
   const updateCache = newValue => {
-    console.info("set in cache!");
     cacheUsingCounter += 1;
     return fn(...newValue);
   };

@@ -5,17 +5,30 @@ import randomReplaceArray from "../utils/randomReplaceArray";
 import sortAlphabetByString from "../utils/sortAlphabetByString";
 import Component from "../src/Component";
 import PureComponent from "../src/PureComponent";
+import memoize from "../utils/memoize";
 
 const russianString = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
 
-const List = ({ children }) => <ul>{children}</ul>;
-
+class List extends PureComponent {
+  render() {
+    const { items } = this.props;
+    return (
+      <ul>
+        {items.map(el => (
+          <ListItemComponent item={el} />
+        ))}
+      </ul>
+    );
+  }
+}
 class ListItemComponent extends PureComponent {
   render() {
     const { item } = this.props;
     return <li>{item}</li>;
   }
 }
+
+const memoizedSortAlphabetByString = memoize(sortAlphabetByString);
 
 class App extends Component {
   constructor(props) {
@@ -38,7 +51,7 @@ class App extends Component {
   handleSortButton() {
     const { inputValue, alphabet } = this.state;
     this.setState({
-      alphabet: sortAlphabetByString(alphabet, inputValue)
+      alphabet: memoizedSortAlphabetByString(alphabet, inputValue)
     });
   }
 
@@ -55,11 +68,7 @@ class App extends Component {
 
     return (
       <div>
-        <List>
-          {alphabet.map(el => (
-            <ListItemComponent item={el} />
-          ))}
-        </List>
+        <List items={alphabet} />
         <button type="button" onClick={this.tick}>
           replace array
         </button>
