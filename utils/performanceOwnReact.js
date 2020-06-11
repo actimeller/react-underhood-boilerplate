@@ -1,5 +1,10 @@
 /* eslint-disable no-console */
 const { performance } = window;
+const initialState = {
+  summaryTime: {},
+  wrongRenderCounter: 0,
+  cacheUsingPercent: 0
+};
 
 const performanceOwnReact = {
   disabled: false,
@@ -31,13 +36,14 @@ const performanceOwnReact = {
   print() {
     console.info("summary time: ", this.statistics.summaryTime);
     console.info("wrong render counter: ", this.statistics.wrongRenderCounter);
+    console.info(
+      "percentage of hits in the cache: ",
+      this.statistics.cacheUsingPercent
+    );
   },
 
   clear() {
-    this.statistics = {
-      summaryTime: {},
-      wrongRenderCounter: 0
-    };
+    this.statistics = initialState;
   },
 
   startTracking() {
@@ -48,10 +54,7 @@ const performanceOwnReact = {
     this.disabled = true;
   },
 
-  statistics: {
-    summaryTime: {},
-    wrongRenderCounter: 0
-  }
+  statistics: initialState
 };
 
 window.performanceOwnReact =
