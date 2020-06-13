@@ -1,22 +1,40 @@
 import performanceOwnReact from "./performanceOwnReact";
 
+const CACHE_SIZE = 2;
+
 const memoize = fn => {
   const cache = {};
   let memoizeUsingCounter = 0;
   let cacheUsingCounter = 0;
 
-  const updateCache = newValue => {
-    cacheUsingCounter += 1;
-    return fn(...newValue);
+  const getLeastFrequentlyUsed = () => {
+    const list = Object.entries(cache).sort((a, b) => a[1].usage - b[1].usage);
+    return list[0][0];
+  };
+
+  const getValueFromCache = args => {
+    const stringifiedArgs = JSON.stringify(args);
+
+    if (cache[stringifiedArgs]) {
+      cacheUsingCounter += 1;
+      cache[stringifiedArgs].usage += 1;
+      return cache[stringifiedArgs].value;
+    }
+    if (Object.keys(cache).length >= CACHE_SIZE) {
+      delete cache[getLeastFrequentlyUsed()];
+    }
+    const result = fn(...args);
+    cache[stringifiedArgs] = {
+      value: result,
+      usage: 0
+    };
+    return result;
   };
 
   return (...args) => {
-    memoizeUsingCounter += 1;
     performanceOwnReact.start(`Memoize`);
-    const stringifiedArgs = JSON.stringify(args);
-    // eslint-disable-next-line no-multi-assign
-    const result = (cache[stringifiedArgs] =
-      cache[stringifiedArgs] || updateCache(args));
+    memoizeUsingCounter += 1;
+    const result = getValueFromCache(args);
     performanceOwnReact.end(`Memoize`);
     performanceOwnReact.measure(`Memoize`);
     performanceOwnReact.statistics.cacheUsingPercent =
